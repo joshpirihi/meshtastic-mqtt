@@ -1,12 +1,12 @@
 # python3.6
 
-from protobufs.portnums_pb2 import POSITION_APP
+from portnums_pb2 import POSITION_APP
 import random
 import json
 
-#import protobufs.mesh_pb2 as mesh_pb2
-#import protobufs.mqtt_pb2 as mqtt_pb2
-from protobufs import mesh_pb2
+import mesh_pb2 as mesh_pb2
+import mqtt_pb2 as mqtt_pb2
+
 from paho.mqtt import client as mqtt_client
 
 
