@@ -57,7 +57,8 @@ def subscribe(client: mqtt_client):
             if owntracks_payload["lat"] != 0 and owntracks_payload["lon"] != 0:
                 client.publish("owntracks/"+str(getattr(mp, "from"))+"/meshtastic_node", json.dumps(owntracks_payload))
             #lets also publish the battery directly
-            client.publish("/mesh/"+str(getattr(mp, "from"))+"/battery", pos.battery_level)
+            if pos.battery_level > 0:
+                client.publish("/mesh/"+str(getattr(mp, "from"))+"/battery", pos.battery_level)
 
     client.subscribe(topic)
     client.on_message = on_message
