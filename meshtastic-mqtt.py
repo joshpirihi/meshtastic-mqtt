@@ -51,7 +51,8 @@ def subscribe(client: mqtt_client):
                 "lat": pos.latitude_i * 1e-7,
                 "lon": pos.longitude_i * 1e-7,
                 "tst": pos.time,
-                "batt": pos.battery_level
+                "batt": pos.battery_level,
+                "alt": pos.altitude
             }
             if owntracks_payload["lat"] != 0 and owntracks_payload["lon"] != 0:
                 client.publish("owntracks/"+str(getattr(mp, "from"))+"/meshtastic_node", json.dumps(owntracks_payload))
