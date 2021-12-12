@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\023com.geeksville.meshB\010PortnumsH\003Z!github.com/meshtastic/gomeshproto',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0eportnums.proto*\xbe\x02\n\x07PortNum\x12\x0f\n\x0bUNKNOWN_APP\x10\x00\x12\x14\n\x10TEXT_MESSAGE_APP\x10\x01\x12\x17\n\x13REMOTE_HARDWARE_APP\x10\x02\x12\x10\n\x0cPOSITION_APP\x10\x03\x12\x10\n\x0cNODEINFO_APP\x10\x04\x12\x0f\n\x0bROUTING_APP\x10\x05\x12\r\n\tADMIN_APP\x10\x06\x12\r\n\tREPLY_APP\x10 \x12\x11\n\rIP_TUNNEL_APP\x10!\x12\x0e\n\nSERIAL_APP\x10@\x12\x15\n\x11STORE_FORWARD_APP\x10\x41\x12\x12\n\x0eRANGE_TEST_APP\x10\x42\x12!\n\x1d\x45NVIRONMENTAL_MEASUREMENT_APP\x10\x43\x12\x10\n\x0bPRIVATE_APP\x10\x80\x02\x12\x13\n\x0e\x41TAK_FORWARDER\x10\x81\x02\x12\x08\n\x03MAX\x10\xff\x03\x42\x44\n\x13\x63om.geeksville.meshB\x08PortnumsH\x03Z!github.com/meshtastic/gomeshprotob\x06proto3'
+  serialized_pb=b'\n\x0eportnums.proto*\xcb\x02\n\x07PortNum\x12\x0f\n\x0bUNKNOWN_APP\x10\x00\x12\x14\n\x10TEXT_MESSAGE_APP\x10\x01\x12\x17\n\x13REMOTE_HARDWARE_APP\x10\x02\x12\x10\n\x0cPOSITION_APP\x10\x03\x12\x10\n\x0cNODEINFO_APP\x10\x04\x12\x0f\n\x0bROUTING_APP\x10\x05\x12\r\n\tADMIN_APP\x10\x06\x12\r\n\tREPLY_APP\x10 \x12\x11\n\rIP_TUNNEL_APP\x10!\x12\x0e\n\nSERIAL_APP\x10@\x12\x15\n\x11STORE_FORWARD_APP\x10\x41\x12\x12\n\x0eRANGE_TEST_APP\x10\x42\x12!\n\x1d\x45NVIRONMENTAL_MEASUREMENT_APP\x10\x43\x12\x0b\n\x07ZPS_APP\x10\x44\x12\x10\n\x0bPRIVATE_APP\x10\x80\x02\x12\x13\n\x0e\x41TAK_FORWARDER\x10\x81\x02\x12\x08\n\x03MAX\x10\xff\x03\x42\x44\n\x13\x63om.geeksville.meshB\x08PortnumsH\x03Z!github.com/meshtastic/gomeshprotob\x06proto3'
 )
 
 _PORTNUM = _descriptor.EnumDescriptor(
@@ -96,17 +96,22 @@ _PORTNUM = _descriptor.EnumDescriptor(
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='PRIVATE_APP', index=13, number=256,
+      name='ZPS_APP', index=13, number=68,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='ATAK_FORWARDER', index=14, number=257,
+      name='PRIVATE_APP', index=14, number=256,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='MAX', index=15, number=511,
+      name='ATAK_FORWARDER', index=15, number=257,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='MAX', index=16, number=511,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -114,7 +119,7 @@ _PORTNUM = _descriptor.EnumDescriptor(
   containing_type=None,
   serialized_options=None,
   serialized_start=19,
-  serialized_end=337,
+  serialized_end=350,
 )
 _sym_db.RegisterEnumDescriptor(_PORTNUM)
 
@@ -132,6 +137,7 @@ SERIAL_APP = 64
 STORE_FORWARD_APP = 65
 RANGE_TEST_APP = 66
 ENVIRONMENTAL_MEASUREMENT_APP = 67
+ZPS_APP = 68
 PRIVATE_APP = 256
 ATAK_FORWARDER = 257
 MAX = 511

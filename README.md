@@ -5,4 +5,6 @@ There's a few config definitions at the top of meshtastic-mqtt.py that you'll ne
 
 This doesn't implement the decryption required, until that is working you'll need to modify your meshtastic gateway node to send decrypted payloads to MQTT.  In Router.cpp, in Router::send move the MQTT fragment (including the #if defined bits) to just above the call to perhapsEncode().
 
+There are some comments in meshtastic-mqtt.py that detail the tweaks needed to make this run under AppDaemon in Home Assistant.
+
 This is a nasty bodge but it does work!
