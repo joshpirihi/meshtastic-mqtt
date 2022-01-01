@@ -1,2 +1,6 @@
 __pycache__
 .DS_Store
+venv/
+*.swp
+meshtastic_mqtt.egg-info/
+build/

@@ -1,15 +1,10 @@
 # python3.6
 
-from portnums_pb2 import POSITION_APP
 import random
 import json
 
-import mesh_pb2 as mesh_pb2
-import mqtt_pb2 as mqtt_pb2
-
-from paho.mqtt import client as mqtt_client
-
 import requests
+from paho.mqtt import client as mqtt_client
 
 #uncomment for AppDaemon
 #import hassapi as hass
@@ -44,13 +39,13 @@ class MeshtasticMQTT():
     def subscribe(self, client: mqtt_client):
         def on_message(client, userdata, msg):
             #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-            se = mqtt_pb2.ServiceEnvelope()
+            se = meshtastic_mqtt.mqtt_pb2.ServiceEnvelope()
             se.ParseFromString(msg.payload)
-            
+
             print(se)
             mp = se.packet
-            if mp.decoded.portnum == POSITION_APP:
-                pos = mesh_pb2.Position()
+            if mp.decoded.portnum == meshtastic_mqtt.portnums_pb2.POSITION_APP:
+                pos = meshtastic_mqtt.mesh_pb2.Position()
                 pos.ParseFromString(mp.decoded.payload)
                 print(getattr(mp, "from"))
                 print(pos)
@@ -82,7 +77,11 @@ class MeshtasticMQTT():
     def initialize(self):
         self.run(self)
 
-#in appdaemon comment this block out
-if __name__ == '__main__':
+def main():
     mm = MeshtasticMQTT()
     mm.run()
+
+
+#in appdaemon comment this block out
+if __name__ == '__main__':
+    main()
