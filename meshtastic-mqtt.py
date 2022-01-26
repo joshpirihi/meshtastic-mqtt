@@ -1,11 +1,12 @@
 # python3.6
 
-from portnums_pb2 import POSITION_APP
+from portnums_pb2 import ENVIRONMENTAL_MEASUREMENT_APP, POSITION_APP
 import random
 import json
 
 import mesh_pb2 as mesh_pb2
 import mqtt_pb2 as mqtt_pb2
+import environmental_measurement_pb2
 
 from paho.mqtt import client as mqtt_client
 
@@ -15,7 +16,7 @@ import requests
 #import hassapi as hass
 
 #swap for AppDaemon
-#class MeshtasticMQTT(hass.Hass):
+#class MeshtasticMQTT(hass.Hass=None):
 class MeshtasticMQTT():
 
     broker = '10.147.253.250'
@@ -25,6 +26,8 @@ class MeshtasticMQTT():
     client_id = f'python-mqtt-{random.randint(0, 100)}'
     # username = 'emqx'
     # password = 'public'
+
+    traccarHost = '10.147.253.250'
 
 
     def connect_mqtt(self) -> mqtt_client:
@@ -63,12 +66,20 @@ class MeshtasticMQTT():
                     "alt": pos.altitude
                 }
                 if owntracks_payload["lat"] != 0 and owntracks_payload["lon"] != 0:
-                    client.publish("owntracks/"+str(getattr(mp, "from"))+"/meshtastic_node", json.dumps(owntracks_payload))
-                    submitted = requests.get("http://10.147.253.250:5055?id="+str(getattr(mp, "from"))+"&lat="+str(pos.latitude_i * 1e-7)+"&lon="+str(pos.longitude_i * 1e-7)+"&altitude="+str(pos.altitude)+"&battery_level="+str(pos.battery_level)+"&hdop="+str(pos.PDOP)+"&accuracy="+str(pos.PDOP*0.03))
-                    print(submitted)
+                    #client.publish("owntracks/"+str(getattr(mp, "from"))+"/meshtastic_node", json.dumps(owntracks_payload))
+                    if len(self.traccarHost) > 0:
+                        submitted = requests.get("http://"+self.traccarHost+":5055?id="+str(getattr(mp, "from"))+"&lat="+str(pos.latitude_i * 1e-7)+"&lon="+str(pos.longitude_i * 1e-7)+"&altitude="+str(pos.altitude)+"&battery_level="+str(pos.battery_level)+"&hdop="+str(pos.PDOP)+"&accuracy="+str(pos.PDOP*0.03))
+                        print(submitted)
                 #lets also publish the battery directly
                 if pos.battery_level > 0:
                     client.publish("/mesh/"+str(getattr(mp, "from"))+"/battery", pos.battery_level)
+            elif mp.decoded.portnum == ENVIRONMENTAL_MEASUREMENT_APP:
+                env = environmental_measurement_pb2.EnvironmentalMeasurement()
+                env.ParseFromString(mp.decoded.payload)
+                print(env)
+                client.publish("/mesh/"+str(getattr(mp, "from"))+"/temperature", env.temperature)
+                client.publish("/mesh/"+str(getattr(mp, "from"))+"/relative_humidity", env.relative_humidity)
+            
 
         client.subscribe(self.topic)
         client.on_message = on_message
