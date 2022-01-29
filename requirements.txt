@@ -1,0 +1,4 @@
+protobuf
+pypubsub
+paho-mqtt
+requests
