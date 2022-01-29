@@ -6,6 +6,7 @@ import json
 
 import mesh_pb2 as mesh_pb2
 import mqtt_pb2 as mqtt_pb2
+import portnums_pb2 as portnums_pb2
 import environmental_measurement_pb2
 
 from paho.mqtt import client as mqtt_client
@@ -48,13 +49,13 @@ class MeshtasticMQTT():
     def subscribe(self, client: mqtt_client):
         def on_message(client, userdata, msg):
             #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-            se = meshtastic_mqtt.mqtt_pb2.ServiceEnvelope()
+            se = mqtt_pb2.ServiceEnvelope()
             se.ParseFromString(msg.payload)
 
             print(se)
             mp = se.packet
-            if mp.decoded.portnum == meshtastic_mqtt.portnums_pb2.POSITION_APP:
-                pos = meshtastic_mqtt.mesh_pb2.Position()
+            if mp.decoded.portnum == portnums_pb2.POSITION_APP:
+                pos = mesh_pb2.Position()
                 pos.ParseFromString(mp.decoded.payload)
                 print(getattr(mp, "from"))
                 print(pos)
