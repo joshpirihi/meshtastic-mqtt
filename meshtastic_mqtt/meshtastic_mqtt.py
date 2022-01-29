@@ -1,13 +1,13 @@
 # python3.6
 
-from portnums_pb2 import ENVIRONMENTAL_MEASUREMENT_APP, POSITION_APP
+import meshtastic_mqtt.portnums_pb2 as portnums_pb2
+from meshtastic_mqtt.portnums_pb2 import ENVIRONMENTAL_MEASUREMENT_APP, POSITION_APP
 import random
 import json
 
-import mesh_pb2 as mesh_pb2
-import mqtt_pb2 as mqtt_pb2
-import portnums_pb2 as portnums_pb2
-import environmental_measurement_pb2
+import meshtastic_mqtt.mesh_pb2 as mesh_pb2
+import meshtastic_mqtt.mqtt_pb2 as mqtt_pb2
+import meshtastic_mqtt.environmental_measurement_pb2
 
 from paho.mqtt import client as mqtt_client
 
