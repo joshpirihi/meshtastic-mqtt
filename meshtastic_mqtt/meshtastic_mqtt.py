@@ -25,9 +25,10 @@ class MeshtasticMQTT():
     port = 1883
     topic = "msh/1/c/ShortFast/#"
     # generate client ID with pub prefix randomly
-    client_id = f'python-mqtt-{random.randint(0, 100)}'
+    client_id = f'meshtastic-mqtt-{random.randint(0, 100)}'
     # username = 'emqx'
     # password = 'public'
+    prefix = "meshtastic/"
 
     traccarHost = '10.147.253.250'
 
@@ -69,18 +70,19 @@ class MeshtasticMQTT():
                 }
                 if owntracks_payload["lat"] != 0 and owntracks_payload["lon"] != 0:
                     #client.publish("owntracks/"+str(getattr(mp, "from"))+"/meshtastic_node", json.dumps(owntracks_payload))
+                    client.publish(self.prefix+str(getattr(mp, "from"))+"/position", json.dumps(owntracks_payload))
                     if len(self.traccarHost) > 0:
                         submitted = requests.get("http://"+self.traccarHost+":5055?id="+str(getattr(mp, "from"))+"&lat="+str(pos.latitude_i * 1e-7)+"&lon="+str(pos.longitude_i * 1e-7)+"&altitude="+str(pos.altitude)+"&battery_level="+str(pos.battery_level)+"&hdop="+str(pos.PDOP)+"&accuracy="+str(pos.PDOP*0.03))
                         print(submitted)
                 #lets also publish the battery directly
                 if pos.battery_level > 0:
-                    client.publish("/mesh/"+str(getattr(mp, "from"))+"/battery", pos.battery_level)
+                    client.publish(self.prefix+str(getattr(mp, "from"))+"/battery", pos.battery_level)
             elif mp.decoded.portnum == ENVIRONMENTAL_MEASUREMENT_APP:
                 env = environmental_measurement_pb2.EnvironmentalMeasurement()
                 env.ParseFromString(mp.decoded.payload)
                 print(env)
-                client.publish("/mesh/"+str(getattr(mp, "from"))+"/temperature", env.temperature)
-                client.publish("/mesh/"+str(getattr(mp, "from"))+"/relative_humidity", env.relative_humidity)
+                client.publish(self.prefix+str(getattr(mp, "from"))+"/temperature", env.temperature)
+                client.publish(self.prefix+str(getattr(mp, "from"))+"/relative_humidity", env.relative_humidity)
             
 
         client.subscribe(self.topic)
