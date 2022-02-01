@@ -4,3 +4,4 @@ venv/
 *.swp
 meshtastic_mqtt.egg-info/
 build/
+dist/

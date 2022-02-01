@@ -1,4 +1,6 @@
-# Note: you shouldn't need to run this script manually.  It is run implicitly by the pip3 install command.
+# Note: you shouldn't need to run this script manually.
+# It is run implicitly by the pip3 install command.
+"""setup for package"""
 
 import pathlib
 from setuptools import setup
@@ -6,20 +8,19 @@ from setuptools import setup
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
 
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 # This call to setup() does all the work
 setup(
     name="meshtastic_mqtt",
-    version="1.01",
+    version="1.0.1",
     description="A python script to translate Meshtastic MQTT location messages into a format that Traccar can understand.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/joshpirihi/meshtastic-mqtt",
     author="joshpirihi",
-    #author_email="tbd",
-    # TODO: validate
+    author_email="josh.pirihi+meshtasticmqtt@gmail.com",
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
