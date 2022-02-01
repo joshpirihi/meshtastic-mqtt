@@ -20,7 +20,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/joshpirihi/meshtastic-mqtt",
     author="joshpirihi",
-    #author_email="tbd",
+    author_email="josh.pirihi+meshtasticmqtt@gmail.com",
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
