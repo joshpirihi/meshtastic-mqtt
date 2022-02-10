@@ -13,6 +13,7 @@ from paho.mqtt import client as mqtt_client
 
 import requests
 from paho.mqtt import client as mqtt_client
+from google.protobuf.json_format import MessageToJson
 
 #uncomment for AppDaemon
 #import hassapi as hass
@@ -22,12 +23,13 @@ from paho.mqtt import client as mqtt_client
 class MeshtasticMQTT():
 
     broker = '10.147.253.250'
+    username = 'user'
+    password = 'pass'
     port = 1883
-    topic = "msh/1/c/ShortFast/#"
+    topic = "msh/1/c/#"
     # generate client ID with pub prefix randomly
     client_id = f'meshtastic-mqtt-{random.randint(0, 100)}'
-    # username = 'emqx'
-    # password = 'public'
+    
     prefix = "meshtastic/"
 
     traccarHost = '10.147.253.250'
@@ -41,7 +43,7 @@ class MeshtasticMQTT():
                 print("Failed to connect, return code %d\n", rc)
 
         client = mqtt_client.Client(self.client_id)
-        client.username_pw_set("user", "pass")
+        client.username_pw_set(self.username, self.password)
         client.on_connect = on_connect
         client.connect(self.broker, self.port)
         return client
@@ -72,7 +74,9 @@ class MeshtasticMQTT():
                     #client.publish("owntracks/"+str(getattr(mp, "from"))+"/meshtastic_node", json.dumps(owntracks_payload))
                     client.publish(self.prefix+str(getattr(mp, "from"))+"/position", json.dumps(owntracks_payload))
                     if len(self.traccarHost) > 0:
-                        submitted = requests.get("http://"+self.traccarHost+":5055?id="+str(getattr(mp, "from"))+"&lat="+str(pos.latitude_i * 1e-7)+"&lon="+str(pos.longitude_i * 1e-7)+"&altitude="+str(pos.altitude)+"&battery_level="+str(pos.battery_level)+"&hdop="+str(pos.PDOP)+"&accuracy="+str(pos.PDOP*0.03))
+                        traccarURL = "http://"+self.traccarHost+":5055?id="+str(getattr(mp, "from"))+"&lat="+str(pos.latitude_i * 1e-7)+"&lon="+str(pos.longitude_i * 1e-7)+"&altitude="+str(pos.altitude)+"&battery_level="+str(pos.battery_level)+"&hdop="+str(pos.PDOP)+"&accuracy="+str(pos.PDOP*0.03)
+                        print(traccarURL)
+                        submitted = requests.get(traccarURL)
                         print(submitted)
                 #lets also publish the battery directly
                 if pos.battery_level > 0:
@@ -83,7 +87,11 @@ class MeshtasticMQTT():
                 print(env)
                 client.publish(self.prefix+str(getattr(mp, "from"))+"/temperature", env.temperature)
                 client.publish(self.prefix+str(getattr(mp, "from"))+"/relative_humidity", env.relative_humidity)
-            
+            elif mp.decoded.portnum == portnums_pb2.NODEINFO_APP:
+                info = mesh_pb2.User()
+                info.ParseFromString(mp.decoded.payload)
+                #print(MessageToJson(info))
+                client.publish(self.prefix+str(getattr(mp, "from"))+"/user", MessageToJson(info))
 
         client.subscribe(self.topic)
         client.on_message = on_message
