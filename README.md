@@ -1,5 +1,5 @@
 # meshtastic-mqtt
-A python script to translate Meshtastic MQTT location messages into a plain format that other systems can easily understand.  Currently takes position data and submits it to a Traccar instance, also publishes battery levels and environmental plugin temperatures and humidity readings to mqtt as raw values.
+A python script to translate Meshtastic MQTT location messages into a plain format that other systems can easily understand.  Currently takes position data and submits it to a Traccar instance, also publishes user info packets, battery levels and environmental plugin temperatures and humidity readings to mqtt as raw values.
 
 The latest build of Meshtastic-device has support for publishing decrypted payloads, which you'll need in order to use this script.
 
