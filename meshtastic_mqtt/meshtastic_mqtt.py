@@ -92,6 +92,13 @@ class MeshtasticMQTT():
                 info.ParseFromString(mp.decoded.payload)
                 #print(MessageToJson(info))
                 client.publish(self.prefix+str(getattr(mp, "from"))+"/user", MessageToJson(info))
+            elif mp.decoded.portnum == portnums_pb2.TEXT_MESSAGE_APP:
+                text = {
+                    "message": mp.decoded.payload.decode("utf-8"),
+                    "from": getattr(mp, "from"),
+                    "to": mp.to
+                }
+                client.publish(self.prefix+str(getattr(mp, "from"))+"/text_message", json.dumps(text))
 
         client.subscribe(self.topic)
         client.on_message = on_message
