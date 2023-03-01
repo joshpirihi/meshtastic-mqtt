@@ -1,3 +1,7 @@
+# Note: only functions with old v1.2 meshtastic device firmware
+The newer version 2 of the device firmware supports JSON MQTT packets natively, so there is no need for this script.
+
+
 # meshtastic-mqtt
 A python script to translate Meshtastic MQTT location messages into a plain format that other systems can easily understand.  Currently takes position data and submits it to a Traccar instance, also publishes user info packets, battery levels and environmental plugin temperatures and humidity readings to mqtt as raw values.
 
